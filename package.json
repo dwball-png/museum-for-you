@@ -8,8 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "autoprefixer": "^10.1.0",
+    "axios": "^0.21.1",
+    "lodash.samplesize": "^4.2.0",
+    "lodash.shuffle": "^4.2.0",
+    "lodash.startcase": "^4.4.0",
     "next": "10.0.4",
+    "postcss": "^8.2.2",
+    "query-string": "^6.13.8",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "tailwindcss": "^2.0.2"
   }
 }
