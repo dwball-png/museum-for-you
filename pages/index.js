@@ -1,8 +1,4 @@
-import Head from 'next/head'
-import { comment } from 'postcss';
-import styles from '../styles/Home.module.css'
 import App from '../components/App'
-import Card from '../components/Card'
 
 const index = () => {
   return (

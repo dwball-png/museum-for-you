@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios'
 import sampleSize from 'lodash.samplesize'
-import startCase from 'lodash.startcase'
 import Card from '../components/Card'
 
 const App = () => {
@@ -13,6 +12,7 @@ const App = () => {
     const [reqObjects, setReqObjects] = useState([]);
     const [galleryObjects, setGalleryObjects] = useState([]);
 
+    // make api call using keyword search
     const doSearch = () => {
         setIsLoading(true);
         setIsError(false);
@@ -24,6 +24,7 @@ const App = () => {
         });
     };
 
+    // sample returned objects from api call
     const pickRandomObjects = () => {
         if (reqSearch.total >= 5) {
             const sample = sampleSize(reqSearch.objectIDs, 5);
@@ -34,15 +35,13 @@ const App = () => {
         }
     }
 
+    // retrieve information about objects from api
     const doObjects = () => {
         if (reqObjects.length != 0) {
-            console.log('req objects have loaded:' + reqObjects);
             const reqObjectUrls = reqObjects.map((object) => axios.get(`/api/painting?obj=${object}`));
-            //console.log(reqObjectUrls);
             axios.all(
                 reqObjectUrls
             ).then(response => {
-                //console.log(response);
                 const tempObjects = response.map((item) => item.data)
                 setGalleryObjects(tempObjects)
                 console.log(tempObjects);
@@ -55,6 +54,7 @@ const App = () => {
         }
     }
 
+    // initial load
     useEffect(() => {
         doSearch();
     }, []);
@@ -66,13 +66,6 @@ const App = () => {
     useEffect(() => {
         doObjects();
     }, [reqObjects])
-
-    // useEffect(() => {
-    //     if (randomObjects.length > 0) {
-    //         console.log('gonna request');
-    //         axios.get(`/api/painting?obj=${randomObjects[0]}`).then((response) => {console.log(response.data.primaryImageSmall); setTempUrl(response.data.primaryImageSmall); setIsLoading(false)})
-    //     }
-    // }, [randomObjects])
 
     let render;
     if (isError) {
@@ -98,24 +91,14 @@ const App = () => {
             )
         } else {
             render = (
-            //     <div>
-            //         <img src={item.primaryImageSmall}>
-            //             {/* {item.primaryImageSmall} */}
-            //         </img>
-            //         <p>{item.title}</p>
-            //         <p>{(item.artistDisplayName != '') ? item.artistDisplayName : 'Unknown'}</p>
-            //     </div>
                 <div className="bg-gradient-to-b from-opal to-eggshell">
-                    {/* <div className='min-h-screen bg-gray-900'></div> */}
                     {galleryObjects.map((item) => (
                         <Card
                             src={item.primaryImageSmall}
                             full={item.primaryImage}
-                            // title={item.title.split(' ').map((word)=>word[0].toUpperCase() + word.substr(1)).join(' ')}
                             title={item.title}
                             artistDisplayName={item.artistDisplayName}
                         ></Card>
-                        
                     ))}
                 </div>
             )
@@ -136,7 +119,6 @@ const App = () => {
                     <input className="border-2 p-2" type='text' value={reqSearchQuery} onChange={(event) => setReqSearchQuery(event.target.value)}></input>
                     <input className="py-2 px-4 rounded cursor-pointer transform hover:scale-105" type='submit' value='submit'></input>
                 </form>
-                {/* <button className="p-4 text-white bg-blue-400 rounded-xl" onClick={doSearch}>Search</button> */}
             </div>
             {render}
         </>

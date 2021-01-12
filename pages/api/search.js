@@ -6,8 +6,6 @@ export default async function handler(req, res) {
         res.json({error: "Bad request"});
         return;
     }
-
-    console.log(`https://collectionapi.metmuseum.org/public/collection/v1/search?medium=Paintings&q=${req.query.q}`);
     const response = await axios.get(
         `https://collectionapi.metmuseum.org/public/collection/v1/search?medium=Paintings&q=${req.query.q}`
     );
